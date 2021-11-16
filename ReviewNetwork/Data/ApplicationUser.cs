@@ -9,6 +9,7 @@ namespace ReviewNetwork.Data
 {
     public class ApplicationUser : IdentityUser
     {
-        
+        public bool IsAdmin { get; set; }
+        public ICollection<Like> Likes { get; set; }
     }
 }

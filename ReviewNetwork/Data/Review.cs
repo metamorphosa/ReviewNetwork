@@ -17,6 +17,5 @@ namespace ReviewNetwork.Data
         public ICollection<Tag> Tags { get; set; }
         public int Rating { get; set; }
         public int Likes { get; set; } = 0;
-        //public ICollection<User> UsersLiked { get; set; }
     }
 }

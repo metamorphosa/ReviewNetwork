@@ -1,0 +1,20 @@
+﻿@page
+@model ReviewModel
+@{
+    ViewData["Title"] = "Review";
+    ViewData["ActivePage"] = ManageNavPages.Review;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <button onclick="location.href='@Url.Action("Index","Review")'" type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">View</button>
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReviewNetwork.Data;
 
 namespace ReviewNetwork.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211116095339_NewEntities")]
+    partial class NewEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,7 +241,7 @@ namespace ReviewNetwork.Data.Migrations
 
                     b.HasIndex("CategoryId1");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("ReviewNetwork.Data.Comment", b =>
@@ -292,19 +294,7 @@ namespace ReviewNetwork.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Likes");
-                });
-
-            modelBuilder.Entity("ReviewNetwork.Data.Page", b =>
-                {
-                    b.Property<int>("PageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("PageId");
-
-                    b.ToTable("Pages");
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("ReviewNetwork.Data.Review", b =>
@@ -326,9 +316,6 @@ namespace ReviewNetwork.Data.Migrations
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PageId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -340,8 +327,6 @@ namespace ReviewNetwork.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PageId");
 
                     b.ToTable("Reviews");
                 });
@@ -476,10 +461,6 @@ namespace ReviewNetwork.Data.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("ReviewNetwork.Data.Page", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("PageId");
-
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Category");
@@ -509,11 +490,6 @@ namespace ReviewNetwork.Data.Migrations
                 {
                     b.Navigation("Categories");
 
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("ReviewNetwork.Data.Page", b =>
-                {
                     b.Navigation("Reviews");
                 });
 

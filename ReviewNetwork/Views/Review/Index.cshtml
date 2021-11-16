@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ReviewNetwork.Data.Category>
+@using ReviewNetwork.Data
+@{
+    ViewData["Title"] = "Review";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Review</h1>
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Name</label>
+  <input type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+</div>
+<div class="input-group mb-3">
+  <label class="input-group-text" for="inputGroupSelect01">Category</label>
+  <select class="form-select" id="inputGroupSelect01">
+    <option selected>Choose...</option>
+        @foreach(var item in Model)
+        {
+            <option>@item.Name</option>
+        };
+  </select>
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Tag</label>
+  <input type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+</div>
+<div class="input-group">
+    <textarea class="form-control" aria-label="Text"></textarea>
+</div>
+
