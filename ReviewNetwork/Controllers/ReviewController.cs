@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReviewNetwork.Data;
 using ReviewNetwork.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -23,9 +25,18 @@ namespace ReviewNetwork.Controllers
             _logger = logger;
             _db = context;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _db.Categories.ToListAsync());
+            SelectList selectList = new SelectList(_db.Categories, "CategoryId", "Name");                     
+            ViewBag.SelectItems = selectList;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Review review)
+        {
+             
+            return View("Success"); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
