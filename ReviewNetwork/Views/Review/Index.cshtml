@@ -1,5 +1,4 @@
-﻿@model Review
-@using ReviewNetwork.Data
+﻿@model ReviewViewModel
 @{
     ViewData["Title"] = "Review";
 }
@@ -7,14 +6,14 @@
 <div class="text-center">
     <h1 class="display-4">Review</h1>
 </div>
-<form asp-controller="review" asp-action="create" method="post">
+<form asp-controller="review" asp-action="index" method="post">
   <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Title</label>
       <input asp-for="Title" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
   </div>
   <div class="input-group mb-3">
       <label class="input-group-text" for="inputGroupSelect01">Category</label>
-      <select asp-for="Category" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
+      <select asp-for="CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
       </select>
   </div>
   <div class="mb-3">

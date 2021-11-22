@@ -10,7 +10,6 @@ namespace ReviewNetwork.Data
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
-        public ICollection<Category> Categories { get; set; }
         public ICollection<Review> Reviews { get; set; }
   
     }

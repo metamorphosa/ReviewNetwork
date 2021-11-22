@@ -11,5 +11,6 @@ namespace ReviewNetwork.Data
     {
         public bool IsAdmin { get; set; }
         public ICollection<Like> Likes { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }

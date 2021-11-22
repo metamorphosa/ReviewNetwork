@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReviewNetwork.Data;
 
 namespace ReviewNetwork.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211119152257_EditReview")]
+    partial class EditReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -457,7 +459,7 @@ namespace ReviewNetwork.Data.Migrations
             modelBuilder.Entity("ReviewNetwork.Data.Review", b =>
                 {
                     b.HasOne("ReviewNetwork.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("ReviewNetwork.Data.Category", null)
@@ -491,8 +493,6 @@ namespace ReviewNetwork.Data.Migrations
             modelBuilder.Entity("ReviewNetwork.Data.ApplicationUser", b =>
                 {
                     b.Navigation("Likes");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ReviewNetwork.Data.Category", b =>

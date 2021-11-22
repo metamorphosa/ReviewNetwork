@@ -1,0 +1,9 @@
+﻿@model ICollection<Review>
+@{
+    ViewData["Title"] = "Review";
+}
+
+@foreach (var item in Model.Reverse())
+{
+    <h1>@item.Title</h1>
+}
