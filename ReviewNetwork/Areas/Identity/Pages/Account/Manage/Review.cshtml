@@ -1,5 +1,6 @@
 ﻿@page
 @model ReviewModel
+
 @{
     ViewData["Title"] = "Review";
     ViewData["ActivePage"] = ManageNavPages.Review;
@@ -10,10 +11,52 @@
 <div class="row">
     <div class="col-md-6">
         <button onclick="location.href='@Url.Action("Index","Review")'" type="submit" class="btn btn-primary">Create</button>
-        <button onclick="location.href='@Url.Action("Browse","Review")'" type="submit" class="btn btn-primary">View</button>
-        <button type="submit" class="btn btn-primary">Delete</button>
     </div>
 </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Date</th>
+      <th scope="col">Tag</th>
+      <th scope="col">Rating</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach (var item in Model.Reviews)
+        {
+          <tr>
+           <td>@item.Title</td>
+           <td>Date</td>
+           <td>@item.Tags</td>
+           <td>Rating</td>
+           <td>
+               <div class="col-md-6">
+                    <a href="@Url.Action("Detail", "Review", new { id = @item.ReviewId})">Detail</a>
+               </div>
+           </td>
+           <td>
+               <div class="col-md-6">
+                   <form method="post">
+                    <button type="submit" class="btn btn-primary" asp-page-handler="delete" asp-route-id="@item.ReviewId">
+                        Delete
+                    </button>
+                   </form>
+               </div>
+           </td>
+           <td>
+               <div class="col-md-6">
+                    <a href="@Url.Action("Edit", "Review", new { id = @item.ReviewId})">Edit</a>
+               </div>
+           </td>
+          </tr>
+        }
+  </tbody>
+</table>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

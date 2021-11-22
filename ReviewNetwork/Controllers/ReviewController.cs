@@ -34,7 +34,7 @@ namespace ReviewNetwork.Controllers
             SelectList selectList = new SelectList(_db.Categories, "CategoryId", "Name");
             ViewBag.SelectItems = selectList;
             return View();
-        }
+        }   
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -46,13 +46,20 @@ namespace ReviewNetwork.Controllers
             return RedirectToPage("/Account/Manage/Review", new { area = "Identity" }); 
         }
 
-        public async Task<IActionResult> Browse()
+        public IActionResult Detail(int id)
         {
-            var currentUser = await GetCurrentUserAsync();
-            var appUser = await _db.ApplicationUsers.Include(x => x.Reviews).SingleOrDefaultAsync(y => y == currentUser);
-            return View(appUser.Reviews);
+            var review = _db.Reviews.Find(id);
+            return View(review);
         }
-
+        
+        public IActionResult Edit(int id)
+        {
+            var review = _db.Reviews.Find(id);
+            SelectList selectList = new SelectList(_db.Categories, "CategoryId", "Name");
+            ViewBag.SelectItems = selectList;
+            return View(review);
+        }
+                
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
