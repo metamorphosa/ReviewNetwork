@@ -1,4 +1,4 @@
-﻿@model Review
+﻿@model ReviewViewModel
 @{
     ViewData["Title"] = "Review";
 }
@@ -7,7 +7,7 @@
     <div class="col col-lg-2">
     </div>
     <div class="col-md-auto">
-        <h1>@Model.Title</h1>
+        <h1>@Model.Review.Title</h1>
     </div>
     <div class="col col-lg-2">
     </div>
@@ -16,7 +16,7 @@
     <div class="col col-lg-2">
     </div>
     <div class="col-md-auto">
-      @Model.Body
+      @Model.Review.Body
     </div>
     <div class="col col-lg-2">
     </div>

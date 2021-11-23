@@ -8,6 +8,7 @@ namespace ReviewNetwork.Models
 {
     public class ReviewViewModel
     {
+        /*
         [Required, StringLength(100)]
         public string Title { get; set; }
         [Required, StringLength(5000)]
@@ -15,6 +16,8 @@ namespace ReviewNetwork.Models
         [Required]
         public int CategoryId { get; set; }
         [Required]
-        public ICollection<Tag> Tags { get; set; }
+        */
+        public string Name { get; set; }
+        public Review Review { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace ReviewNetwork.Data
     public class Page
     {
         public int PageId { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

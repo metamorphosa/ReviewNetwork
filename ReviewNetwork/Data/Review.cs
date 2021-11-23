@@ -9,8 +9,8 @@ namespace ReviewNetwork.Data
         public string Body { get; set; }
         public int CategoryId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public int Rating { get; set; } 
         public int Likes { get; set; } = 0;
     }

@@ -31,35 +31,54 @@ namespace ReviewNetwork.Controllers
 
         public IActionResult Index()
         {
-            SelectList selectList = new SelectList(_db.Categories, "CategoryId", "Name");
+            var selectList = new SelectList(_db.Categories, "CategoryId", "Name");
             ViewBag.SelectItems = selectList;
             return View();
         }   
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(Review review)
+        public async Task<IActionResult> Index(ReviewViewModel reviewView)
         {
-            review.ApplicationUser = await GetCurrentUserAsync();
-            _db.Reviews.Add(review);
+            reviewView.Review.ApplicationUser = await GetCurrentUserAsync();
+            var tag = new Tag { Name = reviewView.Name };
+            reviewView.Review.Tags.Add(tag);
+            _db.Reviews.Add(reviewView.Review);
             await _db.SaveChangesAsync();
             return RedirectToPage("/Account/Manage/Review", new { area = "Identity" }); 
         }
 
         public IActionResult Detail(int id)
         {
-            var review = _db.Reviews.Find(id);
-            return View(review);
+            ReviewViewModel reviewView = new();
+            reviewView.Review = _db.Reviews.Find(id);
+            return View(reviewView);
         }
         
         public IActionResult Edit(int id)
         {
-            var review = _db.Reviews.Find(id);
-            SelectList selectList = new SelectList(_db.Categories, "CategoryId", "Name");
+            ReviewViewModel reviewView = new();
+            reviewView.Review = _db.Reviews.Find(id);
+            var selectList = new SelectList(_db.Categories, "CategoryId", "Name");
             ViewBag.SelectItems = selectList;
-            return View(review);
+            var review = _db.Tags.Include(x => x.Reviews).Where(y=>y.Reviews.Contains(reviewView.Review)).ToList();
+            reviewView.Review.Tags = review;     
+            return View(reviewView);
         }
-                
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ReviewViewModel reviewView)
+        {
+            reviewView.Review.ApplicationUser = await GetCurrentUserAsync();
+            var tag = new Tag { Name = reviewView.Name };
+            reviewView.Review.Tags.Clear();
+            reviewView.Review.Tags.Add(tag);
+            _db.Reviews.Update(reviewView.Review);
+            await _db.SaveChangesAsync();
+            return RedirectToPage("/Account/Manage/Review", new { area = "Identity" });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

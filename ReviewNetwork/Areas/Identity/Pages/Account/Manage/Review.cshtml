@@ -32,7 +32,12 @@
           <tr>
            <td>@item.Title</td>
            <td>Date</td>
-           <td>@item.Tags</td>
+           <td>
+             @foreach(var tag in item.Tags)
+             {
+                 @tag.Name
+             }
+           </td>
            <td>Rating</td>
            <td>
                <div class="col-md-6">
@@ -42,7 +47,7 @@
            <td>
                <div class="col-md-6">
                    <form method="post">
-                    <button type="submit" class="btn btn-primary" asp-page-handler="delete" asp-route-id="@item.ReviewId">
+                    <button type="submit" class="btn btn-danger" asp-page-handler="delete" asp-route-id="@item.ReviewId">
                         Delete
                     </button>
                    </form>

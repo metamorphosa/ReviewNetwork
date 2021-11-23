@@ -1,25 +1,28 @@
-﻿@model Review
+﻿@model ReviewViewModel
 @{
     ViewData["Title"] = "Review";
 }
 
 <h1>Editing</h1>
-<form asp-controller="review" asp-action="index" method="post">
+<form asp-controller="review" asp-action="edit" method="post">
   <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Title</label>
-      <input asp-for="Title" value = "@Model.Title" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+      <input asp-for="Review.Title" value = "@Model.Review.Title" type="text" 
+      class="form-control" placeholder="" aria-describedby="button-addon1">
   </div>
   <div class="input-group mb-3">
       <label class="input-group-text" for="inputGroupSelect01">Category</label>
-      <select asp-for="CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
+      <select asp-for="Review.CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
       </select>
   </div>
   <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Tag</label>
-      <input asp-for = "Tags" value = "@Model.Tags" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+      <input asp-for = "Name" 
+      value = "@foreach(var item in Model.Review.Tags){@item.Name}" 
+      type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
   </div>
   <div class="input-group mb-3">
-        <textarea asp-for = "Body" value = "@Model.Body" id = "content" class="form-control"></textarea>
+        <textarea asp-for = "Review.Body" value = "@Model.Review.Body" id = "content" class="form-control"></textarea>
   </div>
   <div class="d-grid gap-2">
    <button class="btn btn-primary" type="submit">Edit</button>

@@ -30,6 +30,11 @@ namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
         {
             var currentUser = await GetCurrentUserAsync();
             var appUser = await _db.ApplicationUsers.Include(x => x.Reviews).SingleOrDefaultAsync(y => y == currentUser);
+            foreach (var item in appUser.Reviews)
+            {
+                var review = await _db.Reviews.Include(x => x.Tags).SingleOrDefaultAsync(y => y == item);               
+                item.Tags = review.Tags;
+            }
             Reviews = appUser.Reviews;
             return Page();        
         }

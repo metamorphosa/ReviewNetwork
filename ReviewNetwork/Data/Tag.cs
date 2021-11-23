@@ -10,6 +10,6 @@ namespace ReviewNetwork.Data
     {
         public int TagId { get; set; }
         public string Name { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }
