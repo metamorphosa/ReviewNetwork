@@ -1,7 +1,27 @@
-﻿@{
+﻿@model AdminViewModel
+@{
     ViewData["Title"] = "Admin";
 }
 
 <div class="text-center">
     <h1 class="display-4">Admin</h1>
 </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Login</th>
+      <th scope="col">Role</th>
+    </tr>
+  </thead>
+  <tbody>
+        @foreach(var item in Model.Users)
+        {
+          <tr>
+           <td>@item.UserName</td>
+           <td>-</td>
+          </tr>
+        }
+
+  </tbody>
+</table>
