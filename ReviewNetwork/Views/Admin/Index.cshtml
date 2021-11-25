@@ -7,21 +7,18 @@
     <h1 class="display-4">Admin</h1>
 </div>
 
-<table class="table">
-  <thead>
+<table class="table table-hover">
+  <thead class="table table-hover">
     <tr>
       <th scope="col">Login</th>
-      <th scope="col">Role</th>
     </tr>
   </thead>
-  <tbody>
-        @foreach(var item in Model.Users)
-        {
-          <tr>
-           <td>@item.UserName</td>
-           <td>-</td>
-          </tr>
-        }
-
+  <tbody class="table table-hover">
+      @foreach(var user in Model.Users)
+      {
+       <tr>
+         <td><a href="@Url.Action("UserPage", "Admin", new { id = @user.Id})">@user.UserName</a></td>
+       </tr>
+      }
   </tbody>
 </table>

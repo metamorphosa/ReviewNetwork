@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReviewNetwork.Data;
 using ReviewNetwork.Models;
@@ -20,7 +21,7 @@ namespace ReviewNetwork.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
-
+        private AdminViewModel _adminViewModel;
 
         public AdminController(
             ILogger<AdminController> logger, 
@@ -35,9 +36,16 @@ namespace ReviewNetwork.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            AdminViewModel adminViewModel = new();
-            adminViewModel.Users = _db.Users.ToList();
-            return View(adminViewModel);
+            _adminViewModel = new();
+            _adminViewModel.Users = await _db.Users.ToListAsync();
+            return View(_adminViewModel);
+        }
+
+        public async Task<IActionResult> UserPage(string id)
+        {
+            _adminViewModel = new();
+            _adminViewModel.User = await _db.Users.FindAsync(id);
+            return View(_adminViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

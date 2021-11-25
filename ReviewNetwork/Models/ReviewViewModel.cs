@@ -8,15 +8,6 @@ namespace ReviewNetwork.Models
 {
     public class ReviewViewModel
     {
-        /*
-        [Required, StringLength(100)]
-        public string Title { get; set; }
-        [Required, StringLength(5000)]
-        public string Body { get; set; }
-        [Required]
-        public int CategoryId { get; set; }
-        [Required]
-        */
         public string Name { get; set; }
         public Review Review { get; set; }
     }
