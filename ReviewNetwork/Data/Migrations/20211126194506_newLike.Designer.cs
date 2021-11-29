@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReviewNetwork.Data;
 
 namespace ReviewNetwork.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211126194506_newLike")]
+    partial class newLike
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,8 +271,8 @@ namespace ReviewNetwork.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsLiked")
                         .HasColumnType("bit");
@@ -278,11 +280,14 @@ namespace ReviewNetwork.Data.Migrations
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("LikeId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("ReviewId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Likes");
                 });
@@ -433,15 +438,15 @@ namespace ReviewNetwork.Data.Migrations
 
             modelBuilder.Entity("ReviewNetwork.Data.Like", b =>
                 {
-                    b.HasOne("ReviewNetwork.Data.ApplicationUser", "User")
-                        .WithMany("Likes")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("ReviewNetwork.Data.Review", "Review")
                         .WithMany("Likes")
                         .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ReviewNetwork.Data.ApplicationUser", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Review");
 

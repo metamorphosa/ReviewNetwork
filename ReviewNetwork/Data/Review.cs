@@ -11,7 +11,7 @@ namespace ReviewNetwork.Data
         public ApplicationUser ApplicationUser { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-        public int Rating { get; set; } 
-        public int Likes { get; set; } = 0;
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
+        public int LikeCount { get; set; } = 0;
     }
 }
