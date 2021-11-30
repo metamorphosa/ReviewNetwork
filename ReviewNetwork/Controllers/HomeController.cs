@@ -18,6 +18,7 @@ namespace ReviewNetwork.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private static int _reviewId;
 
 
         public HomeController(ILogger<HomeController> logger, 
@@ -38,13 +39,28 @@ namespace ReviewNetwork.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
+            _reviewId = id;
             LikeViewModel likeViewModel = new();
-            likeViewModel.CurrentUser = await GetCurrentUserAsync();
             likeViewModel.Review = await _db.Reviews.FindAsync(id);
-            var like = _db.Likes
+            if (User.Identity.IsAuthenticated)
+            {
+                likeViewModel.CurrentUser = await GetCurrentUserAsync();
+                var like = _db.Likes
                 .Where(x => x.ReviewId == id && x.ApplicationUserId == likeViewModel.CurrentUser.Id)
-                .FirstOrDefault();       
-            likeViewModel.Like = await _db.Likes.FindAsync(like.LikeId);
+                .FirstOrDefault();
+                if (like == null)
+                {
+                    like = new()
+                    {
+                        ReviewId = id,
+                        ApplicationUserId = likeViewModel.CurrentUser.Id,
+                        IsLiked = false
+                    };
+                    await _db.Likes.AddAsync(like);
+                    await _db.SaveChangesAsync();
+                }
+                likeViewModel.Like = await _db.Likes.FindAsync(like.LikeId);
+            }
             return View(likeViewModel);
         }
 
@@ -53,10 +69,13 @@ namespace ReviewNetwork.Controllers
         public async Task<IActionResult> Detail(LikeViewModel likeViewModel)
         {
             ApplicationUser currentUser = await GetCurrentUserAsync();
-            var review = await _db.Reviews.FindAsync(likeViewModel.ReviewId);
-            var like = _db.Likes.Include(x => x.LikeId)
-                .Where(y => y.ApplicationUserId == currentUser.Id && y.ReviewId == review.ReviewId);
-            var currentLike = _db.Likes.Find(like);
+            var like = _db.Likes
+                .Where(x => x.ReviewId == _reviewId && x.ApplicationUserId == currentUser.Id)
+                .FirstOrDefault();
+            likeViewModel.Review = await _db.Reviews.FindAsync(_reviewId);
+            likeViewModel.Like = await _db.Likes.FindAsync(like.LikeId);
+            var currentLike = likeViewModel.Like;
+            var review = likeViewModel.Review;
             if (currentLike.IsLiked == true)
             {
                 currentLike.IsLiked = false;
@@ -71,16 +90,7 @@ namespace ReviewNetwork.Controllers
                 _db.Likes.Update(currentLike);
                 await _db.SaveChangesAsync();
             }
-            else
-            {
-                likeViewModel.Like.ReviewId = review.ReviewId;
-                likeViewModel.Like.ApplicationUserId = currentUser.Id;
-                likeViewModel.Like.IsLiked = true;
-                review.LikeCount++;
-                await _db.Likes.AddAsync(likeViewModel.Like);
-                await _db.SaveChangesAsync();
-            }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Detail", "Home");
         }
 
         public IActionResult Privacy()
