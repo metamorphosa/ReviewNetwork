@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using ReviewNetwork.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
@@ -22,20 +23,36 @@ namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
             _db = context;
             _userManager = userManager;
         }
-        public ICollection<Review> Reviews { get; private set; }
+
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public IList<Review> Reviews { get; private set; }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync(string sortOrder)
         {
-            var currentUser = await GetCurrentUserAsync();
-            var appUser = await _db.ApplicationUsers.Include(x => x.Reviews).SingleOrDefaultAsync(y => y == currentUser);
-            foreach (var item in appUser.Reviews)
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+
+            IQueryable<Review> reviewIQ = from r in _db.Reviews 
+                                          select r;
+            switch (sortOrder)
             {
-                var review = await _db.Reviews.Include(x => x.Tags).SingleOrDefaultAsync(y => y == item);               
-                item.Tags = review.Tags;
+                case "name_desc":
+                    reviewIQ = reviewIQ.OrderByDescending(x => x.Title);
+                    break;
+                case "date_asc":
+                    reviewIQ = reviewIQ.OrderBy(x => x.CreateDate);
+                    break;
+                case "date_desc":
+                    reviewIQ = reviewIQ.OrderByDescending(x => x.CreateDate);
+                    break;
+                default:
+                    reviewIQ = reviewIQ.OrderBy(x => x.Title);
+                    break;
             }
-            Reviews = appUser.Reviews;
+            Reviews = await reviewIQ.AsNoTracking().ToListAsync();
             return Page();        
         }
 

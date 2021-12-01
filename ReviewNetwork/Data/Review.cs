@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ReviewNetwork.Data
 {
@@ -8,6 +9,7 @@ namespace ReviewNetwork.Data
         public string Title { get; set; }
         public string Body { get; set; }
         public int CategoryId { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
         public ApplicationUser ApplicationUser { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();

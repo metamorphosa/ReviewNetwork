@@ -17,8 +17,16 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Date</th>
+      <th scope="col">
+          <a asp-page="./Review" asp-route-sortOrder="@Model.NameSort">
+              @Html.DisplayNameFor(model => model.Reviews[0].Title)
+          </a>
+      </th>
+      <th scope="col">
+          <a asp-page="./Review" asp-route-sortOrder="@Model.DateSort">
+              @Html.DisplayNameFor(model => model.Reviews[0].CreateDate)
+          </a>
+      </th>
       <th scope="col">Tag</th>
       <th scope="col">Rating</th>
       <th scope="col"></th>
@@ -31,7 +39,7 @@
         {
           <tr>
            <td>@item.Title</td>
-           <td>Date</td>
+           <td>@item.CreateDate.ToShortDateString()</td>
            <td>
              @foreach(var tag in item.Tags)
              {

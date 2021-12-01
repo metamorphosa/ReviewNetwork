@@ -5,6 +5,7 @@
 
 <h1>Editing</h1>
 <form asp-controller="review" asp-action="edit" method="post">
+  <input asp-for="Review.ReviewId" type="hidden" />
   <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Title</label>
       <input asp-for="Review.Title" value = "@Model.Review.Title" type="text" 
