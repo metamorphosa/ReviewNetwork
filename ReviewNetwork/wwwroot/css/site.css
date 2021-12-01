@@ -51,7 +51,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #eee;
 }
 .footer {
   position: absolute;
@@ -60,4 +61,3 @@ body {
   white-space: nowrap;
   line-height: 60px; 
 }
-
