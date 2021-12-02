@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Westwind.AspNetCore.Markdown;
 
 namespace ReviewNetwork
 {
@@ -63,7 +64,7 @@ namespace ReviewNetwork
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
-            }           
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

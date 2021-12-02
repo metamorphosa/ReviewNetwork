@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Review";
 }
+<head>
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <link href="~/ckeditor/contents.css" rel="stylesheet"/>
+</head>
 
 <div class="text-center">
     <h1 class="display-4">Review</h1>
@@ -21,9 +25,15 @@
       <input asp-for = "Name" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
   </div>
   <div class="input-group mb-3">
-       <textarea asp-for = "Review.Body" id = "content" class="form-control"></textarea>
+       <textarea asp-for = "Review.Body" id = "editor" class="form-control"></textarea>
   </div>
   <div class="d-grid gap-2">
    <button class="btn btn-primary" type="submit">Create</button>
   </div>
 </form>
+
+<script>
+    CKEDITOR.replace('editor', {
+        height: 220
+    });
+</script>
