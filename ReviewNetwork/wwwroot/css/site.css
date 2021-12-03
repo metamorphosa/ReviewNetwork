@@ -55,9 +55,10 @@ body {
     background-color: #eee;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; 
+    position: relative;
+    flex-shrink: 0;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }

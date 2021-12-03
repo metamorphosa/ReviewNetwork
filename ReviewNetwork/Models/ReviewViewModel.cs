@@ -10,5 +10,6 @@ namespace ReviewNetwork.Models
     {
         public string Name { get; set; }
         public Review Review { get; set; }
+        public IList<string> Tags { get; set; }
     }
 }

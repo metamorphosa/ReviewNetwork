@@ -2,38 +2,50 @@
 @{
     ViewData["Title"] = "Review";
 }
-<head>
-    <script src="~/ckeditor/ckeditor.js"></script>
-    <link href="~/ckeditor/contents.css" rel="stylesheet"/>
-</head>
+<script src="~/ckeditor/ckeditor.js"></script>
+<link href="~/ckeditor/contents.css" rel="stylesheet"/>
+@section Scripts{     
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+      $(function(){
+          $("#tagName").autocomplete({
+              source: '/Review/Search'
+          });
+      });
+  </script>
+}   
 
-<div class="text-center">
-    <h1 class="display-4">Review</h1>
-</div>
-<form asp-controller="review" asp-action="index" method="post">
-  <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Title</label>
-      <input asp-for="Review.Title" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+<body>
+  <div class="text-center">
+      <h1 class="display-4">Review</h1>
   </div>
-  <div class="input-group mb-3">
-      <label class="input-group-text" for="inputGroupSelect01">Category</label>
-      <select asp-for="Review.CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
-      </select>
-  </div>
-  <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Tag</label>
-      <input asp-for = "Name" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
-  </div>
-  <div class="input-group mb-3">
-       <textarea asp-for = "Review.Body" id = "editor" class="form-control"></textarea>
-  </div>
-  <div class="d-grid gap-2">
-   <button class="btn btn-primary" type="submit">Create</button>
-  </div>
-</form>
+  <form asp-controller="review" asp-action="index" method="post">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Title</label>
+        <input asp-for="Review.Title" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Category</label>
+        <select asp-for="Review.CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="tagName" class="form-label">Tag</label>
+        <input asp-for = "Name" type="text" id="tagName" class="form-control" placeholder="" aria-describedby="button-addon1">
+    </div>
+    <div class="input-group mb-3">
+         <textarea asp-for = "Review.Body" id = "editor" class="form-control"></textarea>
+    </div>
+    <div class="d-grid gap-2">
+     <button class="btn btn-primary" type="submit">Create</button>
+    </div>
+  </form>
 
-<script>
-    CKEDITOR.replace('editor', {
-        height: 220
-    });
-</script>
+  <script>
+      CKEDITOR.replace('editor', {
+          height: 220
+      });
+  </script>
+</body>

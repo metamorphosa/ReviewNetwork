@@ -5,6 +5,18 @@
 <head>
     <script src="~/ckeditor/ckeditor.js"></script>
     <link href="~/ckeditor/contents.css" rel="stylesheet"/>
+    @section Scripts{     
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(function(){
+                $("#tagName").autocomplete({
+                    source: '/Review/Search'
+                });
+            });
+        </script>
+    }   
 </head>
 
 <h1>Editing</h1>
@@ -24,7 +36,7 @@
       <label for="exampleFormControlInput1" class="form-label">Tag</label>
       <input asp-for = "Name" 
       value = "@foreach(var item in Model.Review.Tags){@item.Name}" 
-      type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
+      type="text" id="tagName" class="form-control" placeholder="" aria-describedby="button-addon1">
   </div>
   <div class="input-group mb-3">
         <textarea asp-for = "Review.Body" value = "@Model.Review.Body" id = "editor" class="form-control"></textarea>

@@ -29,12 +29,21 @@ namespace ReviewNetwork.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+        [HttpGet]
         public IActionResult Index()
         {
             var selectList = new SelectList(_db.Categories, "CategoryId", "Name");
             ViewBag.SelectItems = selectList;
             return View();
         }   
+
+        [HttpGet]
+        public async Task<IActionResult> Search()
+        {
+            var term = HttpContext.Request.Query["term"].ToString();
+            var tags = await _db.Tags.Where(x => x.Name.Contains(term)).Select(x => x.Name).ToListAsync();
+            return Ok(tags);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
