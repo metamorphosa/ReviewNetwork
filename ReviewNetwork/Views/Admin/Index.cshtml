@@ -1,16 +1,17 @@
 ﻿@model AdminViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = @Localizer["Title"];
 }
 
 <div class="text-center">
-    <h1 class="display-4">Admin</h1>
+    <h1 class="display-4">@Localizer["Admin"]</h1>
 </div>
 
 <table class="table table-hover">
   <thead class="table table-hover">
     <tr>
-      <th scope="col">Login</th>
+      <th scope="col">@Localizer["Login"]</th>
     </tr>
   </thead>
   <tbody class="table table-hover">

@@ -1,6 +1,7 @@
 ﻿@model ReviewViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Review";
+    ViewData["Title"] = @Localizer["Title"];
 }
 <head>
     <script src="~/ckeditor/ckeditor.js"></script>

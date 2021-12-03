@@ -1,16 +1,17 @@
 ﻿@model AdminViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = @Localizer["Title"];
 }
 
-<h1>User - @Model.User.UserName</h1> 
+<h1>@Localizer["User"] - @Model.User.UserName</h1> 
 <table class="table table-sm">
     <thead>
         <tr>
-            <th scope="col">UserName</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Role</th>
+            <th scope="col">@Localizer["UserName"]</th>
+            <th scope="col">@Localizer["Email"]</th>
+            <th scope="col">@Localizer["PhoneNumber"]</th>
+            <th scope="col">@Localizer["Role"]</th>
         </tr>
     </thead>
     <tbody>

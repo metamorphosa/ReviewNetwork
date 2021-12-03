@@ -1,6 +1,7 @@
 ﻿@model ReviewViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Review";
+    ViewData["Title"] = @Localizer["Title"];
 }
 <script src="~/ckeditor/ckeditor.js"></script>
 <link href="~/ckeditor/contents.css" rel="stylesheet"/>
@@ -19,27 +20,27 @@
 
 <body>
   <div class="text-center">
-      <h1 class="display-4">Review</h1>
+      <h1 class="display-4">@Localizer["Title"]</h1>
   </div>
   <form asp-controller="review" asp-action="index" method="post">
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Title</label>
+        <label for="exampleFormControlInput1" class="form-label">@Localizer["Name"]</label>
         <input asp-for="Review.Title" type="text" class="form-control" placeholder="" aria-describedby="button-addon1">
     </div>
     <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">Category</label>
+        <label class="input-group-text" for="inputGroupSelect01">@Localizer["Category"]</label>
         <select asp-for="Review.CategoryId" class="form-select" id="inputGroupSelect01" asp-items="@ViewBag.SelectItems">
         </select>
     </div>
     <div class="mb-3">
-        <label for="tagName" class="form-label">Tag</label>
+        <label for="tagName" class="form-label">@Localizer["Tag"]</label>
         <input asp-for = "Name" type="text" id="tagName" class="form-control" placeholder="" aria-describedby="button-addon1">
     </div>
     <div class="input-group mb-3">
          <textarea asp-for = "Review.Body" id = "editor" class="form-control"></textarea>
     </div>
     <div class="d-grid gap-2">
-     <button class="btn btn-primary" type="submit">Create</button>
+     <button class="btn btn-primary" type="submit">@Localizer["Create"]</button>
     </div>
   </form>
 

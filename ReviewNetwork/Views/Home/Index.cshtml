@@ -1,6 +1,7 @@
 ﻿@model LikeViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Reviews";
+    ViewData["Title"] = @Localizer["Title"];
 }
 
 <div class="row">
@@ -11,7 +12,7 @@
         <div class="card-body">
           <h5 class="card-title">@review.Title</h5>
           <p>@review.CreateDate.ToShortDateString() | <span class="glyphicon glyphicon-heart" aria-hidden="true">@review.LikeCount</span></p>
-          <a href="@Url.Action("Detail", "Home", new { id = @review.ReviewId})" class="btn btn-primary">Подробнее</a>
+          <a href="@Url.Action("Detail", "Home", new { id = @review.ReviewId})" class="btn btn-primary">@Localizer["Link"]</a>
         </div>
       </div>
     </div>
