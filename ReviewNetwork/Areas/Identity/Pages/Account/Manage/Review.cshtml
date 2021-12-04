@@ -1,8 +1,9 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model ReviewModel
 
 @{
-    ViewData["Title"] = "Review";
+    ViewData["Title"] = @Localizer["Review"];
     ViewData["ActivePage"] = ManageNavPages.Review;
 }
 
@@ -10,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <button onclick="location.href='@Url.Action("Index","Review")'" type="submit" class="btn btn-primary">Create</button>
+        <button onclick="location.href='@Url.Action("Index","Review")'" type="submit" class="btn btn-primary">@Localizer["Create"]</button>
     </div>
 </div>
 
@@ -27,8 +28,8 @@
               @Html.DisplayNameFor(model => model.Reviews[0].CreateDate)
           </a>
       </th>
-      <th scope="col">Tag</th>
-      <th scope="col">Rating</th>
+      <th scope="col">@Localizer["Tag"]</th>
+      <th scope="col">@Localizer["Rating"]</th>
       <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
@@ -56,14 +57,14 @@
                <div class="col-md-6">
                    <form method="post">
                     <button type="submit" class="btn btn-danger" asp-page-handler="delete" asp-route-id="@item.ReviewId">
-                        Delete
+                        @Localizer["Delete"]
                     </button>
                    </form>
                </div>
            </td>
            <td>
                <div class="col-md-6">
-                    <a href="@Url.Action("Edit", "Review", new { id = @item.ReviewId})">Edit</a>
+                    <a href="@Url.Action("Edit", "Review", new { id = @item.ReviewId})">@Localizer["Edit"]</a>
                </div>
            </td>
           </tr>
