@@ -11,8 +11,8 @@ namespace ReviewNetwork.Models
     {
         public ICollection<Review> Reviews { get; set; }
         public Review Review { get; set; }
-        public int ReviewId { get; set; }
         public Like Like { get; set; } = new();
         public ApplicationUser CurrentUser { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }

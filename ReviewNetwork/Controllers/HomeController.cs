@@ -38,7 +38,8 @@ namespace ReviewNetwork.Controllers
         public async Task<IActionResult> Index()
         {
             LikeViewModel likeViewModel = new();
-            likeViewModel.Reviews = await _db.Reviews.ToListAsync();     
+            likeViewModel.Reviews = await _db.Reviews.ToListAsync();
+            likeViewModel.Tags = await _db.Tags.ToListAsync();
             return View(likeViewModel);
         }
         public async Task<IActionResult> Detail(int id)
