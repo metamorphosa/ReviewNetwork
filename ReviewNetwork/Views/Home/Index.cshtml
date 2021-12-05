@@ -3,19 +3,54 @@
 @{
     ViewData["Title"] = @Localizer["Title"];
 }
+<head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+     $( function() {
+         $( "#tabs" ).tabs();
+     });
+    </script>
+}
+</head>
 
-<div class="row">
-  @foreach(var review in Model.Reviews.Reverse())
-  {
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">@review.Title</h5>
-          <p>@review.CreateDate.ToShortDateString() | <span class="glyphicon glyphicon-heart" aria-hidden="true">@review.LikeCount</span></p>
-          <a href="@Url.Action("Detail", "Home", new { id = @review.ReviewId})" class="btn btn-primary">@Localizer["Link"]</a>
-        </div>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">@Localizer["Title"]</a></li>
+    <li><a href="#tabs-2">@Localizer["MostLiked"]</a></li>
+    <li><a href="#tabs-3">@Localizer["TagsCloud"]</a></li>
+  </ul>
+  <div id="tabs-1">
+      <div class="row">
+        @foreach(var review in Model.Reviews.Reverse())
+        {
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">@review.Title</h5>
+                <p>@review.CreateDate.ToShortDateString() | <span class="glyphicon glyphicon-heart" aria-hidden="true">@review.LikeCount</span></p>
+                <a href="@Url.Action("Detail", "Home", new { id = @review.ReviewId})" class="btn btn-primary">@Localizer["Link"]</a>
+              </div>
+            </div>
+          </div>
+        }
       </div>
-    </div>
-  }
+  </div>
+  <div id="tabs-2">
+   <div class="list-group">
+     @foreach(var review in Model.Reviews.OrderByDescending(r=>r.LikeCount))
+     {
+         <a href="@Url.Action("Detail", "Home", new {id = @review.ReviewId})" class="list-group-item list-group-item-action" aria-current="true">
+             <div class="d-flex w-100 justify-content-between">
+                 <h5 class="mb-1">@review.Title</h5>
+                 <small>@review.LikeCount</small>
+             </div>
+         </a>
+     }
+   </div>
+  </div>
+  <div id="tabs-3">
+  </div>
 </div>
-
