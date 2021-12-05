@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Korzh.EasyQuery.Linq;
 
 namespace ReviewNetwork.Controllers
 {
@@ -105,6 +106,16 @@ namespace ReviewNetwork.Controllers
                     new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1)}
             );
             return LocalRedirect(returnUrl);
+        }
+
+        public IActionResult Search(string searchString)
+        {
+            SearchViewModel searchViewModel = new();
+            if (!String.IsNullOrWhiteSpace(searchString))
+            {
+                searchViewModel.Reviews = _db.Reviews.FullTextSearchQuery(searchString).ToList();
+            }
+            return View(searchViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -33,8 +33,8 @@
                           </li>
                         }
                     </ul>
-                    <form class="d-flex">
-                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form asp-controller="Home" asp-action="Search" class="d-flex" >
+                      <input class="form-control me-2" name="searchString" type="search" placeholder="@Localizer["Search"]" aria-label="Search">
                       <button class="btn btn-outline-success" type="submit">@Localizer["Search"]</button>
                     </form>
                     <ul class="navbar-nav">

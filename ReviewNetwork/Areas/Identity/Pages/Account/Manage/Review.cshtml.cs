@@ -32,27 +32,29 @@ namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync(string sortOrder)
         {
+            var currentUser = await GetCurrentUserAsync();
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             DateSort = sortOrder == "date_asc" ? "date_desc" : "date_asc";
 
-            IQueryable<Review> reviewIQ = from r in _db.Reviews 
-                                          select r;
+            /*IQueryable<Review> review = from r in _db.Reviews 
+                                          select r;*/
+            IQueryable<Review> review = _db.Reviews.Where(x => x.ApplicationUser == currentUser);
             switch (sortOrder)
             {
                 case "name_desc":
-                    reviewIQ = reviewIQ.OrderByDescending(x => x.Title);
+                    review = review.OrderByDescending(x => x.Title);
                     break;
                 case "date_asc":
-                    reviewIQ = reviewIQ.OrderBy(x => x.CreateDate);
+                    review = review.OrderBy(x => x.CreateDate);
                     break;
                 case "date_desc":
-                    reviewIQ = reviewIQ.OrderByDescending(x => x.CreateDate);
+                    review = review.OrderByDescending(x => x.CreateDate);
                     break;
                 default:
-                    reviewIQ = reviewIQ.OrderBy(x => x.Title);
+                    review = review.OrderBy(x => x.Title);
                     break;
             }
-            Reviews = await reviewIQ.AsNoTracking().ToListAsync();
+            Reviews = await review.AsNoTracking().ToListAsync();
             return Page();        
         }
 

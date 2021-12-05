@@ -1,0 +1,9 @@
+﻿@model SearchViewModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Title"];
+}
+
+@foreach(var review in Model.Reviews){
+   <a href="@Url.Action("Detail", "Home", new { id = @review.ReviewId})" class="btn btn-primary">@review.Title</a>
+}
