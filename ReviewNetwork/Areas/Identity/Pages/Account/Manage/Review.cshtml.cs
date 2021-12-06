@@ -36,8 +36,6 @@ namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             DateSort = sortOrder == "date_asc" ? "date_desc" : "date_asc";
 
-            /*IQueryable<Review> review = from r in _db.Reviews 
-                                          select r;*/
             IQueryable<Review> review = _db.Reviews.Where(x => x.ApplicationUser == currentUser);
             switch (sortOrder)
             {
@@ -55,6 +53,10 @@ namespace ReviewNetwork.Areas.Identity.Pages.Account.Manage
                     break;
             }
             Reviews = await review.AsNoTracking().ToListAsync();
+            foreach (var item in Reviews)
+            {
+                item.Tags = _db.Tags.Where(x => x.Reviews.Contains(item)).ToList();
+            }
             return Page();        
         }
 

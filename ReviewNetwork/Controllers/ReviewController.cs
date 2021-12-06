@@ -37,14 +37,6 @@ namespace ReviewNetwork.Controllers
             return View();
         }   
 
-        [HttpGet]
-        public async Task<IActionResult> Search()
-        {
-            var term = HttpContext.Request.Query["term"].ToString();
-            var tags = await _db.Tags.Where(x => x.Name.Contains(term)).Select(x => x.Name).ToListAsync();
-            return Ok(tags);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ReviewViewModel reviewView)
@@ -52,7 +44,10 @@ namespace ReviewNetwork.Controllers
             reviewView.Review.ApplicationUser = await GetCurrentUserAsync();
             var tag = new Tag { Name = reviewView.Name };
             reviewView.Review.Tags.Add(tag);
+            reviewView.Tag = tag;
+            reviewView.Tag.Reviews.Add(reviewView.Review);
             _db.Reviews.Add(reviewView.Review);
+            _db.Tags.Add(reviewView.Tag);
             await _db.SaveChangesAsync();
             return RedirectToPage("/Account/Manage/Review", new { area = "Identity" }); 
         }
