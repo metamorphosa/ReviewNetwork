@@ -83,6 +83,14 @@ namespace ReviewNetwork.Controllers
             return RedirectToPage("/Account/Manage/Review", new { area = "Identity" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Search()
+        {
+            var term = HttpContext.Request.Query["term"].ToString();
+            var tags = await _db.Tags.Where(x => x.Name.Contains(term)).Select(x => x.Name).ToListAsync();
+            return Ok(tags);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
