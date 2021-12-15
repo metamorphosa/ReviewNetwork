@@ -20,7 +20,9 @@ namespace ReviewNetwork.Controllers
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReviewController(ILogger<ReviewController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager) 
+        public ReviewController(ILogger<ReviewController> logger, 
+                                ApplicationDbContext context, 
+                                UserManager<ApplicationUser> userManager) 
         {
             _logger = logger;
             _userManager = userManager;

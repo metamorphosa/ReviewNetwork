@@ -22,7 +22,6 @@ namespace ReviewNetwork.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
-        private AdminViewModel _adminViewModel;
         private static string _userId;
 
         public AdminController(
@@ -38,9 +37,9 @@ namespace ReviewNetwork.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            _adminViewModel = new();
-            _adminViewModel.Users = await _db.Users.ToListAsync();
-            return View(_adminViewModel);
+            AdminViewModel adminViewModel = new();
+            adminViewModel.Users = await _db.Users.ToListAsync();
+            return View(adminViewModel);
         }
 
         [HttpGet]
@@ -69,9 +68,9 @@ namespace ReviewNetwork.Controllers
         public async Task<IActionResult> UserPage(string id)
         {
             _userId = id;
-            _adminViewModel = new();
-            _adminViewModel.User = await _db.Users.FindAsync(id);
-            return View(_adminViewModel);
+            AdminViewModel adminViewModel = new();
+            adminViewModel.User = await _db.Users.FindAsync(id);
+            return View(adminViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
