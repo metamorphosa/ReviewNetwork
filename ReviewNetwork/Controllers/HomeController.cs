@@ -25,7 +25,7 @@ namespace ReviewNetwork.Controllers
         private static int _reviewId;
 
 
-        public HomeController(ILogger<HomeController> logger, 
+        public HomeController(ILogger<HomeController> logger,
                                 ApplicationDbContext context,
                                 UserManager<ApplicationUser> userManager)
         {
@@ -80,7 +80,7 @@ namespace ReviewNetwork.Controllers
             likeViewModel.Review = await _db.Reviews.FindAsync(_reviewId);
             likeViewModel.Like = await _db.Likes.FindAsync(like.LikeId);
             var currentLike = likeViewModel.Like;
-            var review = likeViewModel.Review;
+            var review  = likeViewModel.Review;
             if (currentLike.IsLiked == true)
             {
                 currentLike.IsLiked = false;
@@ -119,14 +119,14 @@ namespace ReviewNetwork.Controllers
             return View(searchViewModel);
         }
 
-        public IActionResult Test()
-        {
-            return View();
-        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+    
+
 }
+

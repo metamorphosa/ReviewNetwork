@@ -41,7 +41,7 @@ namespace ReviewNetwork.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ReviewViewModel reviewView)
         {
-            reviewView.Review.ApplicationUser = await GetCurrentUserAsync();
+            reviewView.Review.ApplicationUser = await GetCurrentUserAsync();         
             var tag = new Tag { Name = reviewView.Name };
             reviewView.Review.Tags.Add(tag);
             reviewView.Tag = tag;
@@ -62,11 +62,13 @@ namespace ReviewNetwork.Controllers
         public IActionResult Edit(int id)
         {
             ReviewViewModel reviewView = new();
-            reviewView.Review = _db.Reviews.Find(id);
+            reviewView.Review = _db.Reviews.Include(x => x.ApplicationUser)
+                                           .Where(x => x.ReviewId == id)
+                                           .FirstOrDefault();
             var selectList = new SelectList(_db.Categories, "CategoryId", "Name");
             ViewBag.SelectItems = selectList;
-            var review = _db.Tags.Include(x => x.Reviews).Where(y=>y.Reviews.Contains(reviewView.Review)).ToList();
-            reviewView.Review.Tags = review;     
+            var tags = _db.Tags.Include(x => x.Reviews).Where(y=>y.Reviews.Contains(reviewView.Review)).ToList();
+            reviewView.Review.Tags = tags;
             return View(reviewView);
         }
 
@@ -74,12 +76,17 @@ namespace ReviewNetwork.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ReviewViewModel reviewView)
         {
-            reviewView.Review.ApplicationUser = await GetCurrentUserAsync();
             var tag = new Tag { Name = reviewView.Name };
-            reviewView.Review.Tags.Clear();
             reviewView.Review.Tags.Add(tag);
+            reviewView.Tag = tag;
+            reviewView.Tag.Reviews.Add(reviewView.Review);
+            _db.Tags.Update(reviewView.Tag);
             _db.Reviews.Update(reviewView.Review);
             await _db.SaveChangesAsync();
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return RedirectToPage("/Account/Manage/Review", new { area = "Identity" });
         }
 

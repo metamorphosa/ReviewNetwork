@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReviewNetwork.Data;
@@ -22,6 +23,7 @@ namespace ReviewNetwork.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
         private AdminViewModel _adminViewModel;
+        private static string _userId;
 
         public AdminController(
             ILogger<AdminController> logger, 
@@ -41,8 +43,32 @@ namespace ReviewNetwork.Controllers
             return View(_adminViewModel);
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var selectList = new SelectList(_db.Categories, "CategoryId", "Name");
+            ViewBag.SelectItems = selectList;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ReviewViewModel reviewView)
+        {
+            reviewView.Review.ApplicationUser = await _db.Users.FindAsync(_userId);
+            var tag = new Tag { Name = reviewView.Name };
+            reviewView.Review.Tags.Add(tag);
+            reviewView.Tag = tag;
+            reviewView.Tag.Reviews.Add(reviewView.Review);
+            _db.Reviews.Add(reviewView.Review);
+            _db.Tags.Add(reviewView.Tag);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("UserPage", "Admin", new { id = _userId });
+        }
+
         public async Task<IActionResult> UserPage(string id)
         {
+            _userId = id;
             _adminViewModel = new();
             _adminViewModel.User = await _db.Users.FindAsync(id);
             return View(_adminViewModel);
