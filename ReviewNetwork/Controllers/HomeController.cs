@@ -44,7 +44,9 @@ namespace ReviewNetwork.Controllers
         {
             _reviewId = id;
             LikeViewModel likeViewModel = new();
-            likeViewModel.Comments = await _db.Comments.Where(x => x.Review.ReviewId == id).ToListAsync();
+            var comments = await _db.Comments.Include(x => x.ApplicationUser)
+                                    .Where(x => x.Review.ReviewId == _reviewId).ToListAsync();
+            likeViewModel.Comments = comments;
             likeViewModel.Review = await _db.Reviews.FindAsync(id);
             if (User.Identity.IsAuthenticated)
             {

@@ -8,7 +8,7 @@
     {
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
-          <div class="fw-bold">@Model.CurrentUser.UserName</div>
+          <div class="fw-bold">@comment.ApplicationUser.UserName</div>
           @comment.Body
         </div>
         <span class="badge bg-primary rounded-pill">@comment.CreatedDate.ToShortDateString()</span>
