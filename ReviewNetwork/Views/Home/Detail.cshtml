@@ -54,3 +54,10 @@
     </div>
  }
 </form>
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+     @await Html.PartialAsync("_CommentsPartial")
+    </div>
+}
+

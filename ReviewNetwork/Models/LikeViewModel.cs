@@ -14,5 +14,7 @@ namespace ReviewNetwork.Models
         public Like Like { get; set; } = new();
         public ApplicationUser CurrentUser { get; set; }
         public ICollection<Tag> Tags { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public Comment Comment { get; set; }
     }
 }

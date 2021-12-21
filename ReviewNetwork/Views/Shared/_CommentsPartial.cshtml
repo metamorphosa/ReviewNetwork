@@ -1,0 +1,29 @@
+﻿@model LikeViewModel
+@inject IViewLocalizer Localizer
+
+<h5>@Localizer["Title"]</h5>
+
+<ol class="list-group list-group-numbered">
+    @foreach(var comment in Model.Comments)
+    {
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">@Model.CurrentUser.UserName</div>
+          @comment.Body
+        </div>
+        <span class="badge bg-primary rounded-pill">@comment.CreatedDate.ToShortDateString()</span>
+    </li>        
+    }
+</ol>
+
+<form asp-controller="home" asp-action="CreateComment" method="post">
+  <div class="mb-3">
+    <textarea asp-for="Comment.Body" class="form-control is-invalid" id="comment" required></textarea>
+    <div class="invalid-feedback">
+      @Localizer["Comment"]
+    </div>
+  </div>
+  <div class="mb-3">
+    <button class="btn btn-primary" type="submit">@Localizer["Send"]</button>
+  </div>
+</form>

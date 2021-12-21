@@ -24,7 +24,6 @@ namespace ReviewNetwork.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private static int _reviewId;
 
-
         public HomeController(ILogger<HomeController> logger,
                                 ApplicationDbContext context,
                                 UserManager<ApplicationUser> userManager)
@@ -34,7 +33,6 @@ namespace ReviewNetwork.Controllers
             _userManager = userManager;
         }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
         public async Task<IActionResult> Index()
         {
             LikeViewModel likeViewModel = new();
@@ -46,6 +44,7 @@ namespace ReviewNetwork.Controllers
         {
             _reviewId = id;
             LikeViewModel likeViewModel = new();
+            likeViewModel.Comments = await _db.Comments.Where(x => x.Review.ReviewId == id).ToListAsync();
             likeViewModel.Review = await _db.Reviews.FindAsync(id);
             if (User.Identity.IsAuthenticated)
             {
@@ -99,6 +98,20 @@ namespace ReviewNetwork.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment(LikeViewModel likeView)
+        {
+            var review = _db.Reviews.Include(x => x.ApplicationUser)
+                                    .Where(x => x.ReviewId == _reviewId)
+                                    .FirstOrDefault();
+            likeView.Comment.Review = review;
+            likeView.Comment.ApplicationUser = await GetCurrentUserAsync();
+            _db.Comments.Add(likeView.Comment);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Detail", "Home", new { id = _reviewId });
+        }
+
+        [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
             Response.Cookies.Append(
@@ -125,8 +138,5 @@ namespace ReviewNetwork.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
-    
-
 }
 
